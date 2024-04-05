@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  service-be:
+    container_name: backend-web
+    restart: always
+    build:
+      context: .
+      dockerfile: src/WebAPI.Backend/Dockerfile
+    ports:
+      - 5101:5001
+    networks:
+      - lan-network
+
+  service-fe:
+    container_name: fronted-web
+    restart: always
+    build:
+      context: .
+      dockerfile: src/WebAPI.Frontend/Dockerfile
+    ports:
+      - 5102:5001
+    networks:
+      - lan-network
+
+networks:
+  lan-network:
+    external:
+      name: docker-net

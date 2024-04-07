@@ -1,28 +1,17 @@
 ﻿namespace WebAPI.Frontend.Controllers;
 
-public class HomeController : BaseController
+/// <summary>
+/// Controller for handling requests related to people.
+/// </summary>
+public class HomeController(IRequestClient<PeopleListRequest> peopleRequest, IRequestClient<PersonRequest> personRequest) : BaseController
 {
-    private readonly IRequestClient<PeopleListRequest> peopleRequest;
-    private readonly IRequestClient<PersonRequest> personRequest;
-
-    public HomeController(IRequestClient<PeopleListRequest> peopleRequest, IRequestClient<PersonRequest> personRequest)
-    {
-        this.peopleRequest = peopleRequest;
-        this.personRequest = personRequest;
-    }
+    private readonly IRequestClient<PeopleListRequest> peopleRequest = peopleRequest;
+    private readonly IRequestClient<PersonRequest> personRequest = personRequest;
 
     /// <summary>
-    /// Get all people
+    /// Gets a list of all people.
     /// </summary>
-    /// <returns>Return list of people</returns>
-    /// <remarks>
-    /// Sample request:
-    ///
-    ///     GET /api/Home
-    ///
-    /// </remarks>
-    /// <response code="200">Get list of people</response>
-    /// <response code="204">No content</response>
+    /// <returns>A list of people if found, otherwise NoContent.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(List<PersonEntity>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -46,18 +35,10 @@ public class HomeController : BaseController
     }
 
     /// <summary>
-    /// Get person by id
+    /// Gets a person by their ID.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns>Return person by id</returns>
-    /// <remarks>
-    /// Sample request:
-    ///
-    ///     GET /api/Home/{id}
-    ///
-    /// </remarks>
-    /// <response code="200">Get person by id</response>
-    /// <response code="404">Person not found</response>
+    /// <param name="id">The ID of the person.</param>
+    /// <returns>The person if found, otherwise NotFound.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(PersonEntity), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

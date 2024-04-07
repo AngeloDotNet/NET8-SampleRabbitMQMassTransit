@@ -1,14 +1,17 @@
 ﻿namespace WebAPI.Backend.Core.Consumers;
 
-public class ConsumerPersonListRequest : IConsumer<PeopleListRequest>
+/// <summary>
+/// Consumer for handling PeopleListRequest messages.
+/// </summary>
+/// <param name="peopleService">Service for handling people related operations.</param>
+public class ConsumerPersonListRequest(IPeopleService peopleService) : IConsumer<PeopleListRequest>
 {
-    private readonly IPeopleService peopleService;
+    private readonly IPeopleService peopleService = peopleService;
 
-    public ConsumerPersonListRequest(IPeopleService peopleService)
-    {
-        this.peopleService = peopleService;
-    }
-
+    /// <summary>
+    /// Consumes the PeopleListRequest message and responds with a PeopleListResponse.
+    /// </summary>
+    /// <param name="context">The context of the consumed message.</param>
     public async Task Consume(ConsumeContext<PeopleListRequest> context)
     {
         var listPeople = await peopleService.GetListItemAsync();

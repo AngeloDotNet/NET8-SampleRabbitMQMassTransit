@@ -4,10 +4,29 @@ using WebAPI.Backend.Extensions;
 
 namespace WebAPI.Backend;
 
-public class Startup(IConfiguration configuration)
+/// <summary>
+/// Startup class for the application.
+/// </summary>
+public class Startup
 {
-    public IConfiguration Configuration { get; } = configuration;
+    /// <summary>
+    /// Gets the configuration of the application.
+    /// </summary>
+    public IConfiguration Configuration { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Startup"/> class.
+    /// </summary>
+    /// <param name="configuration">The application configuration.</param>
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    /// <summary>
+    /// Configures the services for the application.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
@@ -16,14 +35,19 @@ public class Startup(IConfiguration configuration)
         services.AddSwaggerGen();
         services.AddDbContext<DataDbContext>(option => { option.UseInMemoryDatabase(Settings.DatabaseName); });
 
-        services.AddScoped<DbContext, DataDbContext>();
+        services
+            .AddScoped<DbContext, DataDbContext>()
+            .AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
         //services.AddScoped<IRepository<PersonEntity, int>, Repository<PersonEntity, int>>();
-        services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 
         services.AddTransient<IPeopleService, PeopleService>();
         services.AddBackEndRabbitMQ();
     }
 
+    /// <summary>
+    /// Configures the application.
+    /// </summary>
+    /// <param name="app">The application builder.</param>
     public void Configure(WebApplication app)
     {
         IWebHostEnvironment env = app.Environment;

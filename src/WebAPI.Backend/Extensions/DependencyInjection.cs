@@ -2,11 +2,15 @@
 
 public static class DependencyInjection
 {
+    /// <summary>
+    /// Adds the backend RabbitMQ service to the specified IServiceCollection.
+    /// </summary>
+    /// <param name="services">The IServiceCollection to add the service to.</param>
+    /// <returns>The same service collection so that multiple calls can be chained.</returns>
     public static IServiceCollection AddBackEndRabbitMQ(this IServiceCollection services)
     {
         services.AddMassTransit(x =>
         {
-            //x.AddConsumer<ConsumerPersonListRequest>();
             x.AddConsumers(typeof(ConsumerPersonListRequest).Assembly);
 
             x.SetKebabCaseEndpointNameFormatter();
@@ -25,7 +29,6 @@ public static class DependencyInjection
                     e.ExchangeType = Settings.ExchangeType;
                     e.PrefetchCount = Settings.PrefetchCount;
 
-                    //e.ConfigureConsumer<ConsumerPersonListRequest>(context);
                     e.ConfigureConsumers(context);
                 });
             });

@@ -2,6 +2,11 @@
 
 public static class DependencyInjection
 {
+    /// <summary>
+    /// Adds demo data to the People table in the database.
+    /// </summary>
+    /// <param name="app">The web application to which the data is added.</param>
+    /// <returns>The same web application after adding the data.</returns>
     public static WebApplication AddDataPeopleDemo(this WebApplication app)
     {
         var scope = app.Services.CreateScope();

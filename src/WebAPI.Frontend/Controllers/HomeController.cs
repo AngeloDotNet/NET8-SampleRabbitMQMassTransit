@@ -1,63 +1,36 @@
-﻿namespace WebAPI.Frontend.Controllers;
+﻿using SampleMicroservice.Messaging;
 
-/// <summary>
-/// Controller for handling requests related to people.
-/// </summary>
-public class HomeController(IRequestClient<PeopleListRequest> peopleRequest, IRequestClient<PersonRequest> personRequest) : BaseController
+namespace WebAPI.Frontend.Controllers;
+
+public class HomeController(IRabbitMqBus bus) : BaseController
 {
-    private readonly IRequestClient<PeopleListRequest> peopleRequest = peopleRequest;
-    private readonly IRequestClient<PersonRequest> personRequest = personRequest;
-
-    /// <summary>
-    /// Gets a list of all people.
-    /// </summary>
-    /// <returns>A list of people if found, otherwise NoContent.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(List<PersonEntity>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetPeopleAsync()
     {
-        var people = new List<PersonEntity>();
+        var response = await bus.RequestAsync<PeopleListRequest, PeopleListResponse>(Settings.QueueNameRequest, new PeopleListRequest(), TimeSpan.FromSeconds(10));
 
-        using (var request = peopleRequest.Create(new PeopleListRequest { }))
+        if (response?.People == null || response.People.Count == 0)
         {
-            var response = await request.GetResponse<PeopleListResponse>();
-
-            if (response.Message.People.Count == 0)
-            {
-                return NoContent();
-            }
-
-            people = response.Message.People;
+            return NotFound();
         }
 
-        return Ok(people);
+        return Ok(response.People);
     }
 
-    /// <summary>
-    /// Gets a person by their ID.
-    /// </summary>
-    /// <param name="id">The ID of the person.</param>
-    /// <returns>The person if found, otherwise NotFound.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(PersonEntity), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetPersonAsync(int id)
     {
-        var person = new PersonEntity();
+        var response = await bus.RequestAsync<PersonRequest, PersonResponse>(Settings.QueueNamePerson, new PersonRequest { Id = id }, TimeSpan.FromSeconds(10));
 
-        using (var request = personRequest.Create(new PersonRequest { Id = id }))
+        if (response?.Person == null)
         {
-            var response = await request.GetResponse<PersonResponse>();
-
-            if (response.Message.Person == null)
-            {
-                return NotFound();
-            }
-
-            person = response.Message.Person;
+            return NotFound();
         }
 
-        return Ok(person);
+        return Ok(response.Person);
     }
 }

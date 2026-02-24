@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11312.210 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI.Backend", "src\WebAPI.Backend\WebAPI.Backend.csproj", "{74E3E378-319C-475E-8B1B-527B0FA085ED}"
 EndProject
@@ -12,7 +12,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementi di soluzione", "Elementi di soluzione", "{627AF286-1007-470A-B316-93506B29586E}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleMicroservice.Messaging", "src\SampleMicroservice.Messaging\SampleMicroservice.Messaging.csproj", "{0738F4E9-9C4F-4671-BDC5-2BDA6DB41438}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +35,10 @@ Global
 		{C3D44901-E99D-4E51-9D1A-8B6F617CCC43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3D44901-E99D-4E51-9D1A-8B6F617CCC43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3D44901-E99D-4E51-9D1A-8B6F617CCC43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0738F4E9-9C4F-4671-BDC5-2BDA6DB41438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0738F4E9-9C4F-4671-BDC5-2BDA6DB41438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0738F4E9-9C4F-4671-BDC5-2BDA6DB41438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0738F4E9-9C4F-4671-BDC5-2BDA6DB41438}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

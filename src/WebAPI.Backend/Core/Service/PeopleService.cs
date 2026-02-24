@@ -14,7 +14,11 @@ public class PeopleService(IRepository<PersonEntity, int> repository) : IPeopleS
     /// Gets a list of all people.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains a list of people.</returns>
-    public async Task<List<PersonEntity>> GetListItemAsync() => await repository.GetAllAsync();
+    public async Task<List<PersonEntity>> GetListItemAsync()
+    {
+        var response = await repository.GetAllAsync();
+        return response.ToList();
+    }
 
     /// <summary>
     /// Gets a person by their ID.

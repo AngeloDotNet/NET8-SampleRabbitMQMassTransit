@@ -1,17 +1,7 @@
 namespace WebAPI.Backend;
 
-/// <summary>
-/// The main entry point for the application.
-/// </summary>
-/// <remarks>
-/// This class configures the web application and starts it.
-/// </remarks>
 public class Program
 {
-    /// <summary>
-    /// The main method for the application.
-    /// </summary>
-    /// <param name="args">The command-line arguments.</param>
     public static void Main(string[] args)
     {
         // Create a builder for the web application
